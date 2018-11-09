@@ -22,11 +22,13 @@ sw.listen(1000)
 sw.join('ubuntu-14.04') // can be any id/name/hash
 
 sw.on('connection', function (connection) {
+  // here the client can send some data that might help the user
+  // make a decision if they want to continue the connection
+  // or only replicate parts of the data
+  connection.request({message: 'im-cool'})
+
   connection.on('request', function (data) {
-    // here the client can send some data that might help the user
-    // make a decision if they want to continue the connection
-    // or only replicate parts of the data
-    if (data === 'my-secret-decision-process') {
+    if (data.message === 'im-cool') {
       connection.accept({message: 'ok sure'})
     } else {
       connection.reject({message: 'nope'})
