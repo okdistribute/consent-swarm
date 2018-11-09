@@ -23,7 +23,7 @@ function propagateEvents (origin, next) {
 function ConsentSwarm (opts) {
   if (!(this instanceof ConsentSwarm)) return new ConsentSwarm(opts)
   this.info = discovery()
-  this.data = discovery()
+  this.data = discovery(opts)
   this.info.on('connection', this._onconnection.bind(this))
   propagateEvents(this.info, this)
   propagateEvents(this.data, this)
