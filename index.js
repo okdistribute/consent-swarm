@@ -8,7 +8,20 @@ const C = {
   ACCEPT: 'accept'
 }
 
-var events = ['error', 'handshake']
+var events = [
+  'peer',
+  'peer-banned',
+  'peer-rejected',
+  'drop',
+  'connecting',
+  'connect-failed',
+  'handshaking',
+  'handshake-timeout',
+  'connection-closed',
+  'redundant-connection',
+  'error',
+  'handshake'
+]
 
 function propagateEvents (origin, next) {
   events.forEach(function (name) {
@@ -25,7 +38,7 @@ function ConsentSwarm (opts) {
   this.info = discovery()
   this.data = discovery(opts)
   this.info.on('connection', this._onconnection.bind(this))
-  propagateEvents(this.info, this)
+  this.info.on('error', this._onerror.bind(this))
   propagateEvents(this.data, this)
   EventEmitter.call(this)
 }
@@ -72,6 +85,10 @@ ConsentSwarm.prototype._onconnection = function (conn, info) {
     conn.emit(data.type, data.userData)
   })
   this.emit('connection', this._wrapConnection(conn), info)
+}
+
+ConsentSwarm.prototype._onerror = function (err) {
+  this.emit('error', err)
 }
 
 module.exports = ConsentSwarm
