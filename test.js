@@ -1,4 +1,4 @@
-var consent = require('./fuckyeah.js')
+var consent = require('./')
 var hypercore = require('hypercore')
 var multifeed = require('multifeed')
 

@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/karissa/consent-swarm/issues"
   },
-  "homepage": "https://github.com/karissa/consent-swarm#readme"
+  "homepage": "https://github.com/karissa/consent-swarm#readme",
+  "dependencies": {
+    "discovery-swarm": "^5.1.2"
+  },
+  "devDependencies": {
+    "hypercore": "^6.21.0",
+    "multifeed": "^2.0.4"
+  }
 }
