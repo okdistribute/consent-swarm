@@ -8,38 +8,11 @@ const C = {
   ACCEPT: 'accept'
 }
 
-var events = [
-  'peer',
-  'peer-banned',
-  'peer-rejected',
-  'drop',
-  'connecting',
-  'connect-failed',
-  'handshaking',
-  'handshake-timeout',
-  'connection-closed',
-  'redundant-connection',
-  'error',
-  'handshake'
-]
-
-function propagateEvents (origin, next) {
-  events.forEach(function (name) {
-    origin.on(name, function () {
-      var args = Array.prototype.slice.call(arguments)
-      args.unshift(name)
-      next.emit.apply(next, args)
-    })
-  })
-}
-
 function ConsentSwarm (opts) {
   if (!(this instanceof ConsentSwarm)) return new ConsentSwarm(opts)
-  this.info = discovery()
-  this.data = discovery(opts)
+  this.info = discovery(opts)
   this.info.on('connection', this._onconnection.bind(this))
   this.info.on('error', this._onerror.bind(this))
-  propagateEvents(this.data, this)
   EventEmitter.call(this)
 }
 
@@ -50,7 +23,7 @@ ConsentSwarm.prototype.listen = function () {
 }
 
 ConsentSwarm.prototype.join = function () {
-  this.info.join.apply(this.info, Array.prototype.slice.call(arguments))
+  this.info.join.apply(this.info, arguments)
 }
 
 ConsentSwarm.prototype._wrapConnection = function (conn) {
@@ -67,7 +40,6 @@ ConsentSwarm.prototype._wrapConnection = function (conn) {
       type: C.ACCEPT,
       userData: data
     }))
-    self.data.join('data')
   }
 
   conn.reject = function (data) {
@@ -89,6 +61,10 @@ ConsentSwarm.prototype._onconnection = function (conn, info) {
 
 ConsentSwarm.prototype._onerror = function (err) {
   this.emit('error', err)
+}
+
+ConsentSwarm.prototype.destroy = function () {
+  this.info.destroy.apply(this.info, arguments)
 }
 
 module.exports = ConsentSwarm

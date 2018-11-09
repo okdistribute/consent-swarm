@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "hypercore": "^6.21.0",
-    "multifeed": "^2.0.4"
+    "multifeed": "^2.0.4",
+    "random-access-memory": "^3.0.0",
+    "tape": "^4.9.1"
   }
 }
