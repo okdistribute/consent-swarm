@@ -1,6 +1,6 @@
 {
   "name": "consent-swarm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "discovery-swarm with consent to upgrade to data transfer",
   "main": "index.js",
   "scripts": {
